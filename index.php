@@ -1,3 +1,13 @@
+<?php
+require_once 'app/init.php';
+$itemsQuery=$db->prepare("select id, name, done from items where user=:user");
+$itemsQuery->execute(['user'=>$_SESSION['user_id']]);
+$items=$itemsQuery->rowCount()?$itemsQuery:[];
+//foreach ($items as $item) {
+//    echo $item['name'],'<br>';
+//
+//}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,12 +24,17 @@
 <body>
     <div class="list">
         <h1 class="header"> To do</h1>
+        <?php if (!empty($items)):?>
         <ul class="items">
-            <li><span class="item">Pick up shopping</span>
+            <?php foreach ($items as $item):?>
+            <li><span class="item"><?php echo $item['name']; ?></span>
                 <a href="#" class="done-button"> Mark as done</a>
             </li>
-            <li><span class="item-done">Learn php</span></li>
+            <?php endforeach;?>
         </ul>
+        <?php else:?>
+        <p>You haven't added any items yet</p>
+        <?php endif;?>
         <form class="item-add" action="add.php" method="post">
             <input type="text" name="name" placeholder="type a new item here" class="input" autocomplete="off" required>
             <input type="submit" value="Add" class="submit">
