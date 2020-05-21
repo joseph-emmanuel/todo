@@ -40,7 +40,7 @@ a{
 .input{
     width: 100%;
 }
-.items .item-done{
+.items .itemdone{
 
     text-decoration:line-through;
 }

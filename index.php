@@ -13,6 +13,7 @@ $items=$itemsQuery->rowCount()?$itemsQuery:[];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
+
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>To Do</title>
@@ -27,8 +28,12 @@ $items=$itemsQuery->rowCount()?$itemsQuery:[];
         <?php if (!empty($items)):?>
         <ul class="items">
             <?php foreach ($items as $item):?>
-            <li><span class="item"><?php echo $item['name']; ?></span>
-                <a href="#" class="done-button"> Mark as done</a>
+            <li><span class="item<?php echo $item['done']?'done':'' ?>"><?php echo $item['name']; ?></span>
+                <?php if (!$item['done']):?>
+                <a href="mark.php?as=done&item=<?php echo $item['id']; ?>" class="done-button"> Mark as done</a>
+                <?php else:?>
+                    <a href="mark.php?as=notdone&item=<?php echo $item['id']; ?>" class="done-button"> Mark as not done</a>
+                <?php endif;  ?>
             </li>
             <?php endforeach;?>
         </ul>
